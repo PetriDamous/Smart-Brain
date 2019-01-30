@@ -4,8 +4,8 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import './App.css';
-require('dotenv').config();
 import Clarifai from 'clarifai';
+require('dotenv').config();
 //const Clarifai = require('clarifai');
 
 const app = new Clarifai.App({
