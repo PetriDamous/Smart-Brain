@@ -4,6 +4,7 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import './App.css';
+import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Clarifai from 'clarifai';
 require('dotenv').config();
 //const Clarifai = require('clarifai');
@@ -18,20 +19,21 @@ class App extends Component {
     super();
     this.state = {
       input: '',
+      imageURL: ''
     }
   } 
 
   onInputChange = (e) => {
-    console.log(e.target.value);
+    this.setState({input: e.target.value});
     
   }
 
-  onSubmit = () => {
-    console.log('click');
+  onSubmit = () => {    
+    this.setState({imageURL: this.state.input})
 
-    app.models.predict("a403429f2ddf4b49b307e318f00e528b", "https://samples.clarifai.com/face-det.jpg").then(
+    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input).then(
       function(response) {
-        console.log(response);
+        console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
       },
       function(err) {
         // there was an error
@@ -50,7 +52,7 @@ class App extends Component {
           onSubmit={this.onSubmit}
         />      
         
-        {/*<FaceRecognition />*/}
+        <FaceRecognition imageURL={this.state.imageURL}/>
       </div>
     );
   }
